@@ -25,16 +25,22 @@
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts"
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "test": "jest"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.10",
     "javascript-obfuscator": "^4.1.1",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "jsonwebtoken": "^9.0.2",
     "undici": "^7.11.0"
   }
