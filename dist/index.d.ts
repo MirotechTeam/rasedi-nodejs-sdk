@@ -34,9 +34,11 @@ interface ICreatePayment {
     /** Max 255 characters */
     description: string;
     redirectUrl: string;
+    callbackUrl: string;
     collectFeeFromCustomer: boolean;
     collectCustomerEmail: boolean;
     collectCustomerPhoneNumber: boolean;
+    allowPromoCode: boolean;
 }
 interface ICreatePaymentResponseBody {
     referenceCode: string;
@@ -44,6 +46,7 @@ interface ICreatePaymentResponseBody {
     paidVia: string | null;
     paidAt: string | null;
     redirectUrl: string;
+    callbackUrl: string;
     status: PAYMENT_STATUS;
     payoutAmount: string | null;
 }

@@ -22,7 +22,7 @@ var PrivateKeyAuthenticator = class {
     const bufSign = Buffer.from(rawSign, "utf-8");
     const signResult = sign(null, bufSign, {
       key: this.encryptedPvKey,
-      passphrase: this.secret
+      passphrase: ""
     });
     return signResult.toString("base64");
   }
@@ -80,7 +80,7 @@ var PaymentRestClient = class {
     );
     this.authenticator = new PrivateKeyAuthenticator(key, secret);
     this.isTest = this.checkIsTest(secret);
-    this.baseUrl = baseUrl ? baseUrl : apiBaseUrl;
+    this.baseUrl = baseUrl ?? apiBaseUrl;
   }
   // ** ======================== Basic Methods ======================== ** //
   /**
@@ -169,6 +169,7 @@ var PaymentRestClient = class {
       title: payload.title,
       description: payload.description,
       redirectUrl: payload.redirectUrl,
+      callbackUrl: payload.callbackUrl,
       collectFeeFromCustomer: payload.collectFeeFromCustomer,
       collectCustomerEmail: payload.collectCustomerEmail,
       collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber

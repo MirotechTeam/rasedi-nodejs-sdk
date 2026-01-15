@@ -16,6 +16,7 @@ export interface ICreatePayment {
   description: string;
 
   redirectUrl: string;
+  callbackUrl: string;
   collectFeeFromCustomer: boolean;
   collectCustomerEmail: boolean;
   collectCustomerPhoneNumber: boolean;
@@ -29,11 +30,12 @@ interface ICreatePaymentResponseBody {
   paidVia: string | null;
   paidAt: string | null;
   redirectUrl: string;
+  callbackUrl: string;
   status: PAYMENT_STATUS;
   payoutAmount: string | null;
 }
 
-export interface ICreatePaymentResponse extends IHttpResponse<ICreatePaymentResponseBody> {}
+export interface ICreatePaymentResponse extends IHttpResponse<ICreatePaymentResponseBody> { }
 
 // ** ========================= Get Payment ========================= ** //
 interface IPaymentDetailsResponseBody {
@@ -46,7 +48,7 @@ interface IPaymentDetailsResponseBody {
   payoutAmount: string | null;
 }
 
-export interface IPaymentDetailsResponse extends IHttpResponse<IPaymentDetailsResponseBody> {}
+export interface IPaymentDetailsResponse extends IHttpResponse<IPaymentDetailsResponseBody> { }
 
 // ** ======================== Cancel Payment ======================= ** //
 interface ICancelPaymentResponseBody {
@@ -59,7 +61,7 @@ interface ICancelPaymentResponseBody {
   payoutAmount: string | null;
 }
 
-export interface ICancelPaymentResponse extends IHttpResponse<ICancelPaymentResponseBody> {}
+export interface ICancelPaymentResponse extends IHttpResponse<ICancelPaymentResponseBody> { }
 
 // ** ========================= Get Api Keys ======================== ** //
 export interface IPublicKeyResponseBody {
@@ -69,7 +71,7 @@ export interface IPublicKeyResponseBody {
 
 export interface IPublicKeysResponse extends IHttpResponse<
   IPublicKeyResponseBody[]
-> {}
+> { }
 
 // ** ============================ Verify =========================== ** //
 export interface IVerifyPayload {
@@ -85,4 +87,4 @@ export interface IVerifyPaymentResponseBody {
   payoutAmount: string | null;
 }
 
-export interface IVerifyPaymentResponse extends IHttpResponse<IVerifyPaymentResponseBody> {}
+export interface IVerifyPaymentResponse extends IHttpResponse<IVerifyPaymentResponseBody> { }

@@ -180,6 +180,7 @@ export class PaymentRestClient {
       title: payload.title,
       description: payload.description,
       redirectUrl: payload.redirectUrl,
+      callbackUrl: payload.callbackUrl,
       collectFeeFromCustomer: payload.collectFeeFromCustomer,
       collectCustomerEmail: payload.collectCustomerEmail,
       collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber,
