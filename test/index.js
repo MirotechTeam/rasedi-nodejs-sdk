@@ -1,7 +1,7 @@
-const { GATEWAY } = require("miropay-payment-sdk-test");
+const { GATEWAY } = require("rasedi-sdk");
 
 require("dotenv").config();
-const PaymentRestClient = require("miropay-payment-sdk-test").default;
+const PaymentRestClient = require("rasedi-sdk").default;
 
 const privateKey = process.env.PV_KEY;
 const secret = process.env.SECRET;

@@ -1,13 +1,14 @@
 {
-  "name": "miropay-payment-sdk-test",
+  "name": "rasedi-sdk",
   "version": "0.0.9",
   "publishConfig": {
     "access": "public"
   },
-  "description": "The NodeJS SDK for miropay",
+  "description": "The NodeJS SDK for Rasedi",
   "keywords": [
-    "mp",
-    "miropay",
+    "mirotech",
+    "rasedi",
+    "rasedi-sdk",
     "sdk",
     "api",
     "rest"
