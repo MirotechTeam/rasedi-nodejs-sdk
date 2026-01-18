@@ -10,29 +10,38 @@ var __export = (target, all) => {
     __defProp(target, name, { get: all[name], enumerable: true });
 };
 var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
+  if ((from && typeof from === "object") || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        __defProp(to, key, {
+          get: () => from[key],
+          enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable,
+        });
   }
   return to;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __toESM = (mod, isNodeMode, target) => (
+  (target = mod != null ? __create(__getProtoOf(mod)) : {}),
+  __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule
+      ? __defProp(target, "default", { value: mod, enumerable: true })
+      : target,
+    mod
+  )
+);
+var __toCommonJS = (mod) =>
+  __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
   GATEWAY: () => GATEWAY,
   PAYMENT_STATUS: () => PAYMENT_STATUS,
-  default: () => index_default
+  default: () => index_default,
 });
 module.exports = __toCommonJS(index_exports);
 
@@ -55,7 +64,7 @@ var PrivateKeyAuthenticator = class {
     const bufSign = Buffer.from(rawSign, "utf-8");
     const signResult = (0, import_node_crypto.sign)(null, bufSign, {
       key: this.encryptedPvKey,
-      passphrase: this.secret
+      passphrase: this.secret,
     });
     return signResult.toString("base64");
   }
@@ -78,7 +87,7 @@ var PrivateKeyAuthenticator = class {
 };
 
 // src/rest/const/shared.const.ts
-var apiBaseUrl = "https://api.pallawan.com";
+var apiBaseUrl = "https://api.rasedi.com";
 
 // src/rest/client.ts
 var import_jsonwebtoken = __toESM(require("jsonwebtoken"));
@@ -98,16 +107,16 @@ var PaymentRestClient = class {
           ...opts,
           connections: 5,
           allowH2: true,
-          clientTtl: 30 * 1e3
+          clientTtl: 30 * 1e3,
           // 30 seconds
         });
-      }
+      },
     }).compose(
       import_undici.interceptors.dns({ affinity: 4 }),
       import_undici.interceptors.retry({ maxRetries: 2 }),
       import_undici.interceptors.cache({
         methods: ["GET", "HEAD", "OPTIONS"],
-        cacheByDefault: 5
+        cacheByDefault: 5,
         //seconds
       })
     );
@@ -121,20 +130,22 @@ var PaymentRestClient = class {
    */
   async __call(path, verb, requestBody) {
     const v = `/v${this.upstreamVersion}`;
-    const relativeUrl = `${v}/payment/rest/${this.isTest ? "test" : "live"}${path}`;
+    const relativeUrl = `${v}/payment/rest/${
+      this.isTest ? "test" : "live"
+    }${path}`;
     const versionedUrl = `${this.baseUrl}${relativeUrl}`;
     const signature = this.authenticator.makeSignature(verb, relativeUrl);
     const headers = {
       "x-signature": signature,
       "x-id": this.authenticator.keyId,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     };
     try {
       const res = await (0, import_undici.request)(versionedUrl, {
         dispatcher: this.dispatcher,
         method: verb,
         body: requestBody,
-        headers
+        headers,
       });
       try {
         const jsonBody = await res.body.json();
@@ -144,7 +155,7 @@ var PaymentRestClient = class {
         return {
           body: jsonBody,
           headers: res.headers,
-          statusCode: res.statusCode
+          statusCode: res.statusCode,
         };
       } catch (parseError) {
         console.error("Failed to parse response JSON:", parseError);
@@ -204,7 +215,7 @@ var PaymentRestClient = class {
       redirectUrl: payload.redirectUrl,
       collectFeeFromCustomer: payload.collectFeeFromCustomer,
       collectCustomerEmail: payload.collectCustomerEmail,
-      collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber
+      collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber,
     };
     return this.__call(`/create`, "POST", JSON.stringify(jsonPayload));
   }
@@ -250,7 +261,7 @@ var PaymentRestClient = class {
     return {
       body: _result,
       headers: {},
-      statusCode: 200
+      statusCode: 200,
     };
   }
 };
@@ -279,7 +290,8 @@ var PAYMENT_STATUS = /* @__PURE__ */ ((PAYMENT_STATUS2) => {
 // src/index.ts
 var index_default = PaymentRestClient;
 // Annotate the CommonJS export names for ESM import in node:
-0 && (module.exports = {
-  GATEWAY,
-  PAYMENT_STATUS
-});
+0 &&
+  (module.exports = {
+    GATEWAY,
+    PAYMENT_STATUS,
+  });
