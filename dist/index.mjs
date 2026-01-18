@@ -17,7 +17,7 @@ var PrivateKeyAuthenticator = class {
     const bufSign = Buffer.from(rawSign, "utf-8");
     const signResult = sign(null, bufSign, {
       key: this.encryptedPvKey,
-      passphrase: this.secret,
+      passphrase: "",
     });
     return signResult.toString("base64");
   }
@@ -75,7 +75,7 @@ var PaymentRestClient = class {
     );
     this.authenticator = new PrivateKeyAuthenticator(key, secret);
     this.isTest = this.checkIsTest(secret);
-    this.baseUrl = baseUrl ? baseUrl : apiBaseUrl;
+    this.baseUrl = baseUrl ?? apiBaseUrl;
   }
   // ** ======================== Basic Methods ======================== ** //
   /**
@@ -166,6 +166,7 @@ var PaymentRestClient = class {
       title: payload.title,
       description: payload.description,
       redirectUrl: payload.redirectUrl,
+      callbackUrl: payload.callbackUrl,
       collectFeeFromCustomer: payload.collectFeeFromCustomer,
       collectCustomerEmail: payload.collectCustomerEmail,
       collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber,
@@ -225,9 +226,8 @@ var GATEWAY = /* @__PURE__ */ ((GATEWAY2) => {
   GATEWAY2["ZAIN"] = "ZAIN";
   GATEWAY2["ASIA_PAY"] = "ASIA_PAY";
   GATEWAY2["FAST_PAY"] = "FAST_PAY";
-  GATEWAY2["SUPER_QI"] = "SUPER_QI";
   GATEWAY2["NASS_WALLET"] = "NASS_WALLET";
-  GATEWAY2["YANA"] = "YANA";
+  GATEWAY2["CREDIT_CARD"] = "CREDIT_CARD";
   return GATEWAY2;
 })(GATEWAY || {});
 var PAYMENT_STATUS = /* @__PURE__ */ ((PAYMENT_STATUS2) => {

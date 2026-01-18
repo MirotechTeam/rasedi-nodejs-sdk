@@ -5,9 +5,8 @@ declare enum GATEWAY {
     ZAIN = "ZAIN",
     ASIA_PAY = "ASIA_PAY",
     FAST_PAY = "FAST_PAY",
-    SUPER_QI = "SUPER_QI",
     NASS_WALLET = "NASS_WALLET",
-    YANA = "YANA"
+    CREDIT_CARD = "CREDIT_CARD"
 }
 declare enum PAYMENT_STATUS {
     TIMED_OUT = "TIMED_OUT",
@@ -34,9 +33,11 @@ interface ICreatePayment {
     /** Max 255 characters */
     description: string;
     redirectUrl: string;
+    callbackUrl: string;
     collectFeeFromCustomer: boolean;
     collectCustomerEmail: boolean;
     collectCustomerPhoneNumber: boolean;
+    allowPromoCode: boolean;
 }
 interface ICreatePaymentResponseBody {
     referenceCode: string;
@@ -44,6 +45,7 @@ interface ICreatePaymentResponseBody {
     paidVia: string | null;
     paidAt: string | null;
     redirectUrl: string;
+    callbackUrl: string;
     status: PAYMENT_STATUS;
     payoutAmount: string | null;
 }
