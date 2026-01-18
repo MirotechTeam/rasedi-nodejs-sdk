@@ -20,7 +20,7 @@ for version in $versions; do
 
     npm init -y >/dev/null 2>&1
     npm i dotenv >/dev/null 2>&1
-    npm i "rasedi-sdk@$version" >/dev/null 2>&1
+    npm i "rasedi@$version" >/dev/null 2>&1
 
     node ./index.js
 

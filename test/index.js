@@ -1,7 +1,7 @@
-const { GATEWAY } = require("rasedi-sdk");
+const { GATEWAY } = require("rasedi");
 
 require("dotenv").config();
-const PaymentRestClient = require("rasedi-sdk").default;
+const PaymentRestClient = require("rasedi").default;
 
 const privateKey = process.env.PV_KEY;
 const secret = process.env.SECRET;

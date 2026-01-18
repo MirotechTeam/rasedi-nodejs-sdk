@@ -7,7 +7,7 @@ A lightweight Node.js client for the Rasedi payment gateway. It wraps the REST e
 
 ### Release version
 ```bash
-npm install rasedi-sdk
+npm install rasedi
 ```
 
 ### Build from source
@@ -25,7 +25,7 @@ The package publishes both CommonJS (`dist/index.js`) and ESM (`dist/index.mjs`)
 You must provide the PEM-encoded private key and the matching secret (used as key id in headers). The SDK automatically detects whether you are targeting the test or live environments based on the secret.
 
 ```ts
-import PaymentRestClient, { GATEWAY, PAYMENT_STATUS } from "rasedi-sdk";
+import PaymentRestClient, { GATEWAY, PAYMENT_STATUS } from "rasedi";
 
 const client = new PaymentRestClient(process.env.PV_KEY!, process.env.SECRET!);
 
@@ -75,12 +75,6 @@ npm test
 
 Jest loads `test/.env.test` (you can copy from `test/compose.yaml` as needed) and exercises the `createPayment` path. Ensure `API_KEY`, `API_SECRET`, and `API_URL` point at a reachable Rasedi sandbox.
 
-### SDK stability script
-Use `PACKAGE_VERSIONS` to iterate through published releases (see `test/run.sh`). Each iteration installs the pinned SDK version, boots `test/index.js`, and logs the result.
-
-```bash
-PACKAGE_VERSIONS="0.0.7,0.0.8,0.0.9" sh test/run.sh
-```
 
 ## Contributions
 Pull requests should add or update tests where changes touch behavior. Run `npm run build` before submitting to ensure the emitted files stay in sync with `dist/`.

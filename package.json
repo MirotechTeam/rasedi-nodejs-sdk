@@ -1,6 +1,6 @@
 {
-  "name": "rasedi-sdk",
-  "version": "0.0.9",
+  "name": "rasedi",
+  "version": "1.0.1",
   "publishConfig": {
     "access": "public"
   },
