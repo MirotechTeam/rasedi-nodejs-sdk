@@ -1,5 +1,10 @@
 // src/rest/client.ts
-import { Agent, interceptors, Pool, request } from "undici";
+import {
+  Agent,
+  interceptors,
+  Pool,
+  request
+} from "undici";
 
 // src/core/auth.ts
 import { sign } from "crypto";
@@ -17,7 +22,7 @@ var PrivateKeyAuthenticator = class {
     const bufSign = Buffer.from(rawSign, "utf-8");
     const signResult = sign(null, bufSign, {
       key: this.encryptedPvKey,
-      passphrase: "",
+      passphrase: ""
     });
     return signResult.toString("base64");
   }
@@ -40,7 +45,7 @@ var PrivateKeyAuthenticator = class {
 };
 
 // src/rest/const/shared.const.ts
-var apiBaseUrl = "https://api.rasedi.com";
+var apiBaseUrl = "https://stage.api.rasedi.com";
 
 // src/rest/client.ts
 import jwt from "jsonwebtoken";
@@ -60,16 +65,16 @@ var PaymentRestClient = class {
           ...opts,
           connections: 5,
           allowH2: true,
-          clientTtl: 30 * 1e3,
+          clientTtl: 30 * 1e3
           // 30 seconds
         });
-      },
+      }
     }).compose(
       interceptors.dns({ affinity: 4 }),
       interceptors.retry({ maxRetries: 2 }),
       interceptors.cache({
         methods: ["GET", "HEAD", "OPTIONS"],
-        cacheByDefault: 5,
+        cacheByDefault: 5
         //seconds
       })
     );
@@ -83,22 +88,20 @@ var PaymentRestClient = class {
    */
   async __call(path, verb, requestBody) {
     const v = `/v${this.upstreamVersion}`;
-    const relativeUrl = `${v}/payment/rest/${
-      this.isTest ? "test" : "live"
-    }${path}`;
+    const relativeUrl = `${v}/payment/rest/${this.isTest ? "test" : "live"}${path}`;
     const versionedUrl = `${this.baseUrl}${relativeUrl}`;
     const signature = this.authenticator.makeSignature(verb, relativeUrl);
     const headers = {
       "x-signature": signature,
       "x-id": this.authenticator.keyId,
-      "Content-Type": "application/json",
+      "Content-Type": "application/json"
     };
     try {
       const res = await request(versionedUrl, {
         dispatcher: this.dispatcher,
         method: verb,
         body: requestBody,
-        headers,
+        headers
       });
       try {
         const jsonBody = await res.body.json();
@@ -108,7 +111,7 @@ var PaymentRestClient = class {
         return {
           body: jsonBody,
           headers: res.headers,
-          statusCode: res.statusCode,
+          statusCode: res.statusCode
         };
       } catch (parseError) {
         console.error("Failed to parse response JSON:", parseError);
@@ -169,7 +172,7 @@ var PaymentRestClient = class {
       callbackUrl: payload.callbackUrl,
       collectFeeFromCustomer: payload.collectFeeFromCustomer,
       collectCustomerEmail: payload.collectCustomerEmail,
-      collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber,
+      collectCustomerPhoneNumber: payload.collectCustomerPhoneNumber
     };
     return this.__call(`/create`, "POST", JSON.stringify(jsonPayload));
   }
@@ -215,7 +218,7 @@ var PaymentRestClient = class {
     return {
       body: _result,
       headers: {},
-      statusCode: 200,
+      statusCode: 200
     };
   }
 };
@@ -242,4 +245,8 @@ var PAYMENT_STATUS = /* @__PURE__ */ ((PAYMENT_STATUS2) => {
 
 // src/index.ts
 var index_default = PaymentRestClient;
-export { GATEWAY, PAYMENT_STATUS, index_default as default };
+export {
+  GATEWAY,
+  PAYMENT_STATUS,
+  index_default as default
+};

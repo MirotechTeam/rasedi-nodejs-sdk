@@ -1,7 +1,11 @@
-const { GATEWAY } = require("rasedi");
+const path = require("path");
+// Load .env from root directory
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 
-require("dotenv").config();
-const PaymentRestClient = require("rasedi").default;
+// Import from local build for testing
+const distPath = path.resolve(__dirname, "../dist/index.js");
+const { GATEWAY } = require(distPath);
+const PaymentRestClient = require(distPath).default;
 
 const privateKey = process.env.PV_KEY;
 const secret = process.env.SECRET;
@@ -35,6 +39,7 @@ async function main() {
       title: "Automated SDK Test Payment",
       description: "CI/CD Integration Test",
       redirectUrl: "https://example.com",
+      callbackUrl: "https://example.com/callback",
       collectFeeFromCustomer: false,
       collectCustomerEmail: false,
       collectCustomerPhoneNumber: false,
@@ -59,7 +64,7 @@ async function main() {
       logResult("Verify Payment", verifyRes);
     } catch (verifyErr) {
       console.warn(
-        "Verification failed. This is expected. The verify method must be called by the merchant after the webhook calls the merchant's server"
+        "Verification failed. This is expected. The verify method must be called by the merchant after the webhook calls the merchant's server",
       );
     }
 

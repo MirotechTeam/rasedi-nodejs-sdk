@@ -1,5 +1,9 @@
 # Rasedi Node.js SDK
 
+## Github Repository
+
+Check the [Github Repository](https://github.com/MirotechTeam/rasedi-javascript-sdk) for full implementations:
+
 ## Overview
 A lightweight Node.js client for the Rasedi payment gateway. It wraps the REST endpoints exposed by the platform, handling request signing, retry logic, and typed responses for all payment-related flows.
 
@@ -7,7 +11,7 @@ A lightweight Node.js client for the Rasedi payment gateway. It wraps the REST e
 
 ### Release version
 ```bash
-npm install rasedi
+npm i rasedi-nodejs-sdk
 ```
 
 ### Build from source
@@ -25,7 +29,7 @@ The package publishes both CommonJS (`dist/index.js`) and ESM (`dist/index.mjs`)
 You must provide the PEM-encoded private key and the matching secret (used as key id in headers). The SDK automatically detects whether you are targeting the test or live environments based on the secret.
 
 ```ts
-import PaymentRestClient, { GATEWAY, PAYMENT_STATUS } from "rasedi";
+import PaymentRestClient, { GATEWAY, PAYMENT_STATUS } from "rasedi-nodejs-sdk";
 
 const client = new PaymentRestClient(process.env.PV_KEY!, process.env.SECRET!);
 
@@ -74,6 +78,21 @@ npm test
 ```
 
 Jest loads `test/.env.test` (you can copy from `test/compose.yaml` as needed) and exercises the `createPayment` path. Ensure `API_KEY`, `API_SECRET`, and `API_URL` point at a reachable Rasedi sandbox.
+
+### Manual Verification Script
+A manual test script is available at `test/manual_run.js` to verify the full payment lifecycle (Create -> Get -> Cancel) using your specific credentials.
+
+1. Create a `.env` file in the root directory with your credentials:
+   ```bash
+   PV_KEY="-----BEGIN PRIVATE KEY-----\n..."
+   SECRET="your_secret_key"
+   NODE_ENV="test"
+   ```
+2. Run the script:
+   ```bash
+   node test/manual_run.js
+   ```
+
 
 
 ## Contributions
